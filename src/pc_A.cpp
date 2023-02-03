@@ -42,7 +42,7 @@ int threshold = INFINITE;
 int MAXSWS = -INFINITE;
 
 // Part 2
-vector<int> aquireFrameInfo(char buffer[]) {
+vector<int> acquireFrameInfo(char buffer[]) {
 	string infoS[2] = {""};
 	int start = 0;
 	for(int j = 0; j < 2; j++) 
@@ -72,11 +72,10 @@ string readFile(string fileName) {
 void alarm_handler(int a) {
     cout << "Time Out Occured!\n\n";
     numOfTimeOuts++;
-    if(numOfTimeOuts >= 1){
+    if(numOfTimeOuts >= 1) {
         threshold = currSWS / 2;
         currSWS = 1;
     }
-    // currSWS = currSWS == 0 ? 1 : currSWS;
     unregisteredAcks.clear();
     lfs = lar;
 }
@@ -94,7 +93,7 @@ void* recieveAck(void* args) {
 			MSG_WAITALL, (struct sockaddr *) &servaddr,
 			(socklen_t*)&servaddr);
 
-        vector<int> frameInfo = aquireFrameInfo(buffer);
+        vector<int> frameInfo = acquireFrameInfo(buffer);
         int SN = frameInfo[0];
         int dest = frameInfo[1];
 
@@ -127,10 +126,6 @@ void* recieveAck(void* args) {
             unregisteredAcks.push_back(SN);
         }
     }
-    // char *transmitComplete =  (char*)(to_string(frames.size()+1).c_str());
-    // sendto(sockfd, transmitComplete, BUFFER_SIZE+1, 
-    //         MSG_CONFIRM, (const struct sockaddr *) &servaddr,  
-    //             sizeof(servaddr));
     return nullptr;
 }
 
@@ -198,23 +193,16 @@ int main() {
         if(lfs-lar < currSWS) {
             string SNS = to_string(lfs+1);
             int n = to_string(computerNumber).length()+SNS.length()+frames[lfs].length()+3;
-            // int n = SNS.length()+frames[lfs].length()+3;
             
             n += to_string(n).length();
             char char_array[n+1] = {0};
             strcpy(char_array, (SNS+" "+to_string(computerNumber)+" "+to_string(n)+" "+frames[lfs]).c_str());
-            // strcpy(char_array, (SNS+" "+to_string(n)+" "+frames[lfs]).c_str());
             
             writeSendLog(lfs+1, char_array);
             //udp
             sendto(sockfd, char_array, sizeof(char_array), 
                     MSG_CONFIRM, (const struct sockaddr *) &servaddr,  
                     sizeof(servaddr)); 
-            
-            //tcp 
-            // cout << "lo22l" << endl;
-
-            // send(sock, char_array, sizeof(BUFFER_SIZE), 0); 
             
             lfs++;
         }

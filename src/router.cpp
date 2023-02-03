@@ -49,7 +49,6 @@ string convertToString(char buff[], int size) {
 }
 
 struct Packet {
-	// Packet(string _body, bool _dest, int frameSN, int _DN): dest(_dest), SN(frameSN), DN(_DN), body(_body) {};
 	Packet(bool is_ack_, int SN_, bool src_, bool dest_, string body_):
 			is_ack(is_ack_), SN(SN_), src(src_), dest(dest_), body(body_) {};
 	
@@ -73,7 +72,7 @@ void updateDropProb() {
 					 (packetsBuffer.size() - MIN)/2;
 }
 
-vector<int> aquireFrameInfo(char buffer[]) {
+vector<int> acquireFrameInfo(char buffer[]) {
 	try{
 		string infoS[3] = {""};
 		int start = 0;
@@ -106,8 +105,6 @@ void* sendPackets(void* args) {
 				sizeof(cliaddr2));
 		} else {
 			std::cout << "forwarding ack for packet " << p.SN << " to A...\n";
-			// if(p.SN == numOfFrames+1)
-			// 	break;
 			sendto(sockfd1, (char*)p.body.c_str(), MAXLINE, 
         		MSG_CONFIRM, (const struct sockaddr *) &cliaddr1,  
             	sizeof(cliaddr1)); 			
@@ -125,7 +122,7 @@ void addPacket(string mssg1, string mssg2, string mssg3, int sender, char recBuf
 	char* temp = new char[MAXLINE];
 	memcpy(temp, recBuffer, MAXLINE-1);
 	updateDropProb(); //for second scenario
-	vector<int> frameInfo = aquireFrameInfo(temp);
+	vector<int> frameInfo = acquireFrameInfo(temp);
 	int frameSN = frameInfo[0];
 	int dest = frameInfo[1];
 	int size = frameInfo[2];

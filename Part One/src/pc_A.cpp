@@ -107,7 +107,7 @@ void* recieveAck(void* args) {
             lastAckRegistered = true;
             break;
         }
-        if(lar+1 == SN) { //if ACK happens
+        if(lar+1 == SN) { //if ACK happens                                                                                                                                      
             cout << "sliding the window to the right...\n";
             if(currSWS < threshold){
                 currSWS *= 2;

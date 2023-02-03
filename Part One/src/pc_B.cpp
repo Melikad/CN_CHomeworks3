@@ -28,7 +28,7 @@ string file_content = "";
 // Part 1
 //int lfr = 0;
 
-vector<int> aquireFrameInfo(char buffer[]) {
+vector<int> acquireFrameInfo(char buffer[]) {
 	cout << "frame i got was" << buffer << endl;
 	string infoS[3] = {""};
 	int start = 0;
@@ -101,7 +101,7 @@ int main() {
 				MSG_WAITALL, ( struct sockaddr *) &cliaddr,
 				(socklen_t*)&len);
 
-		vector<int> packetInfo = aquireFrameInfo(buffer);
+		vector<int> packetInfo = acquireFrameInfo(buffer);
 		int frameIndex = packetInfo[0];
 		int destination = packetInfo[1];
 		int packetSize = packetInfo[2];

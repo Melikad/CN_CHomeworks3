@@ -226,7 +226,6 @@ int main() {
     cout << "Duration of transmission for a 1MB file sample.txt: " << duration.count() / 1000000 << " seconds" << endl; 
     cout << "Max Window size was: " << MAXSWS << endl;
     cout << "Threshold at the end was: " << threshold << endl;
-    // close(sockfd); 
     close(sockfd);
     return 0; 
 }

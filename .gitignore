@@ -1,0 +1,7 @@
+build/
+output.txt
+*.out
+sample/*.dt
+CN4-REPORT.pdf
+.vscode/
+results/
